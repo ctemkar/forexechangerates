@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-void main() {
-  runApp(const MyApp());
-}
+Future<Map<String, double>> fetchExchangeRatesDirectly() async {
+  const apiKey = 'fa0869ef1ff3410f9277d38213a77e6c';
+  const baseUrl = 'https://openexchangerates.org/api';
+  const latestEndpoint = '/latest.json';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final response =
+      await http.get(Uri.parse('$baseUrl$latestEndpoint?app_id=$apiKey'));
 
-  @override
-  Widget build(BuildContext 
- context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text( 
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body) as Map<String, dynamic>;
+    final rates = data['rates'] as Map<String, double>;
 
-            'Happy Friendship Day!',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    );
+    // Extract desired currencies as before
+
+    return rates;
+  } else {
+    throw Exception('Failed to fetch exchange rates');
   }
 }
