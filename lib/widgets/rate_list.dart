@@ -21,7 +21,7 @@ class _RateListState extends State<RateList> {
 
   Future<ExchangeRate> fetchExchangeRate() async {
     final response = await http.get(Uri.parse(
-        'https://api.fixer.io/latest?access_key=da4843f1844d1c12d4f3978023d85380'));
+        'http://data.fixer.io/api/latest?access_key=da4843f1844d1c12d4f3978023d85380'));
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
