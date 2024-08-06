@@ -1,14 +1,16 @@
 class ExchangeRate {
-  final String source; // Source currency (USD in this case)
-  final Map<String, double> rates; // Map of currency codes to exchange rates
+  final String base;
+  final Map<String, double> conversionRates;
 
-  ExchangeRate({required this.source, required this.rates});
+  ExchangeRate({required this.base, required this.conversionRates});
 
   factory ExchangeRate.fromJson(Map<String, dynamic> json) {
     return ExchangeRate(
-      source: json['source'] as String, // Ensure source is a String
-      rates: json['quotes']?.cast<String, double>() ??
-          {}, // Handle potential null value for 'quotes'
+      base: json['base_code'],
+      conversionRates: json['conversion_rates']
+          .cast<String, dynamic>()
+          .map((key, value) => MapEntry(key, value as double))
+          .toMap(),
     );
   }
 }
