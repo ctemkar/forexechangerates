@@ -45,46 +45,42 @@ class _RateListState extends State<RateList> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<ExchangeRate>(
-      future: exchangeRateFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          final exchangeRate = snapshot.data!;
-          final rates = exchangeRate.conversionRates.entries.toList();
-          return ListView.builder(
-            itemCount: rates.length,
-            itemBuilder: (context, index) {
-              final rateEntry = rates[index];
-              final currency = rateEntry.key;
-              final rateValue = rateEntry.value;
-              return ListTile(
-                title: Text(' $currency ${rateValue.toStringAsFixed(2)}'),
-              );
-            },
-          );
-        }
-      },
-    );
-  }
-}
-
-class ExchangeRate {
-  final String base;
-  final Map<String, double> conversionRates;
-
-  ExchangeRate({required this.base, required this.conversionRates});
-
-  factory ExchangeRate.fromJson(Map<String, dynamic> json) {
-    return ExchangeRate(
-      base: json['base_code'],
-      conversionRates: json['conversion_rates']
-          .cast<String, dynamic>()
-          .map((key, value) => MapEntry(key, value as double))
-          .toMap(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Exchange Rates'),
+      ),
+      body: FutureBuilder<ExchangeRate>(
+        future: exchangeRateFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            final exchangeRate = snapshot.data!;
+            final rates = exchangeRate.conversionRates.entries.toList();
+            return SingleChildScrollView(
+              child: DataTable(
+                columns: const [
+                  DataColumn(label: Text('Currency')),
+                  DataColumn(label: Text('Exchange Rate')),
+                ],
+                rows: rates.map((rateEntry) {
+                  final currency = rateEntry.key;
+                  final rateValue = rateEntry.value;
+                  return DataRow(
+                    cells: [
+                      DataCell(SelectableText(currency)),
+                      DataCell(SelectableText(
+                          '${rateValue.toStringAsFixed(2)} THB')),
+                    ],
+                  );
+                }).toList(),
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }
