@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: const RegistrationScreen(),
-      home: RegistrationForm(), //const Scaffold(
-       // body: RateList(), // Wrap RateList in Scaffold
-      //),
+      home:  Scaffold(
+         body: RegistrationForm(), //RateList(), // Wrap RateList in Scaffold
+      ),
     );
   }
 }
