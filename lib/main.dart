@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../widgets/rate_list.dart';
-
+//import '../widgets/rate_list.dart';
+import 'package:myapp/screens/registration_screen.dart';
 void main() {
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
@@ -23,9 +23,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(
-        body: RateList(), // Wrap RateList in Scaffold
-      ),
+      //home: const RegistrationScreen(),
+      home: RegistrationForm(), //const Scaffold(
+       // body: RateList(), // Wrap RateList in Scaffold
+      //),
     );
   }
 }
