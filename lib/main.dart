@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 //import '../widgets/rate_list.dart';
-import 'package:myapp/screens/registration_screen.dart';
+import 'package:myapp/auth/auth_form.dart';
+
 void main() {
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       ),
       //home: const RegistrationScreen(),
       home:  Scaffold(
-         body: RegistrationForm(), //RateList(), // Wrap RateList in Scaffold
+         body: AuthForm(), //RegistrationForm(), //RateList(), // Wrap RateList in Scaffold
       ),
     );
   }
